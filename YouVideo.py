@@ -174,8 +174,7 @@ def update_ui_on_complete(download_folder):
     # Display success message
     success_label.config(text=f"Video Downloaded! Saved in: {download_folder}")
 
-    # Display footer message
-    footer_label.config(text="Thank you for using YouVideo Downloader!\nCreated by @little_things\nInspired by MRR KORK, STREET, DR ASSEM, ADZAH BERNARD")
+    # Footer stays static (no change needed on completion)
 
 # Function to handle download error
 def download_error(error_message):
@@ -343,8 +342,15 @@ speed_label.grid(row=0, column=1, sticky="e")
 success_label = tk.Label(card_inner, text="", fg=BRAND, bg=CARD, font=("Poppins", 10, "bold"))
 success_label.grid(row=5, column=0, sticky="w", pady=(10, 0))
 
-# Footer label
-footer_label = tk.Label(canvas, text="", fg=MUTED, bg=BG, font=("Poppins", 9), anchor="center")
+# Footer label (static attribution)
+footer_label = tk.Label(
+    canvas,
+    text="Created by @little_things\nInspired by MRR KORK, STREET, DR ASSEM, ADZAH BERNARD",
+    fg=MUTED,
+    bg=BG,
+    font=("Poppins", 9),
+    anchor="center",
+)
 canvas.create_window(360, 530, window=footer_label)
 
 # Run the Tkinter event loop
