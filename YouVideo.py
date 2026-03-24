@@ -1,5 +1,6 @@
 import yt_dlp
 import os
+import sys
 import shutil
 import tkinter as tk
 from tkinter import ttk
@@ -13,10 +14,26 @@ total_size = 1
 speed = 0
 download_complete = False
 
+def get_ffmpeg_path():
+    # Prefer bundled ffmpeg (PyInstaller), then local tools folder, then PATH.
+    base = getattr(sys, "_MEIPASS", os.path.abspath(os.path.dirname(__file__)))
+    candidates = [
+        os.path.join(base, "ffmpeg", "ffmpeg.exe"),
+        os.path.join(base, "ffmpeg", "ffmpeg"),
+        os.path.join(base, "ffmpeg.exe"),
+        os.path.join(base, "ffmpeg"),
+        os.path.join(os.path.dirname(__file__), "tools", "ffmpeg", "bin", "ffmpeg.exe"),
+        os.path.join(os.path.dirname(__file__), "tools", "ffmpeg", "bin", "ffmpeg"),
+    ]
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+    return shutil.which("ffmpeg")
+
 def get_format_selector():
     # yt-dlp format selector string:
     # prefer 720p MP4 and, if ffmpeg exists, allow separate video+audio merge.
-    if shutil.which("ffmpeg"):
+    if get_ffmpeg_path():
         return "bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720][ext=mp4]/best[height<=720]"
     return "best[height<=720][ext=mp4]/best[height<=720]"
 
@@ -140,7 +157,9 @@ def perform_download(link, download_folder):
         "format": get_format_selector(),
     }
     # Only set merge output when ffmpeg is available (needed to combine video+audio).
-    if shutil.which("ffmpeg"):
+    ffmpeg_path = get_ffmpeg_path()
+    if ffmpeg_path:
+        ydl_opts["ffmpeg_location"] = ffmpeg_path
         ydl_opts["merge_output_format"] = "mp4"
 
     try:

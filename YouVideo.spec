@@ -1,10 +1,17 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import os
+
+ffmpeg_path = os.path.join("tools", "ffmpeg", "bin", "ffmpeg.exe")
+extra_binaries = []
+if os.path.exists(ffmpeg_path):
+    # Bundle ffmpeg so users don't need to install it separately.
+    extra_binaries.append((ffmpeg_path, os.path.join("ffmpeg")))
 
 a = Analysis(
     ['YouVideo.py'],
     pathex=[],
-    binaries=[],
+    binaries=extra_binaries,
     datas=[('./PeerLearn.png', '.')],
     hiddenimports=[],
     hookspath=[],
@@ -35,5 +42,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['C:\\Users\\SAM\\Desktop\\youtube_downloader\\PeerLearn.png'],
+    icon=['PeerLearn.png'],
 )
