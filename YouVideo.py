@@ -175,7 +175,7 @@ def update_ui_on_complete(download_folder):
     success_label.config(text=f"Video Downloaded! Saved in: {download_folder}")
 
     # Display footer message
-    footer_label.config(text="Thank you for using YouVideo Downloader!\nCreated by @little_things\nInspired by MRR KORK, STREET, DR ASSEM, BEN RICHH")
+    footer_label.config(text="Thank you for using YouVideo Downloader!\nCreated by @little_things\nInspired by MRR KORK, STREET, DR ASSEM, ADZAH BERNARD")
 
 # Function to handle download error
 def download_error(error_message):
